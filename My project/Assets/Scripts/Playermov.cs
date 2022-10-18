@@ -40,11 +40,11 @@ public class Playermov : MonoBehaviour
         rb.AddForce(0, 0, forwardForce * Time.deltaTime);
         if (right)
         {
-            rb.AddForce(sidewaysForce * Time.deltaTime, 0, 0);
+            rb.AddForce(sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
         }
         if (left)
         {
-            rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0);
+            rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
         }
 
     }
