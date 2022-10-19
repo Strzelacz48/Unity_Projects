@@ -8,6 +8,7 @@ public class PlayerCollision : MonoBehaviour
         if (info.collider.tag == "Obstacle")
         {
             movement.enabled = false;
+            FindObjectOfType<GameManager>().EndGame();
         }
         Debug.Log(info.collider.name);
     }//testowy komentarz
