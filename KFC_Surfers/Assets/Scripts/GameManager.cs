@@ -1,8 +1,12 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using System.Collections;
+using TMPro;
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public bool gameHasEnded = false;
+    public float restartDelay = 1f;
+    private IEnumerator coroutine;
     void Start()
     {
         
@@ -12,5 +16,24 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+    public void EndGame()
+    {
+        if (gameHasEnded == false)
+        {
+            gameHasEnded = true;
+            Debug.Log("GAME OVER");// poprawić na napis na UI
+            while(true)
+            {
+                if(Input.GetKeyDown("r"))
+                {
+                    Invoke("Restart", restartDelay);
+                }
+            }
+        }
+    }
+    void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
