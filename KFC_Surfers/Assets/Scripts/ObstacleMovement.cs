@@ -1,13 +1,15 @@
 using UnityEngine;
 
-public class GateMovment : MonoBehaviour
+public class ObstacleMovement : MonoBehaviour
 {
     //GameManager gameManager;
-    public float obstacleSpeed = 20f;
+    public const float obstacleSpeed = 15f;
+    public float obstacleSpeedReal = obstacleSpeed;
     void Update()
     {
-        transform.position += Vector3.left * obstacleSpeed * Time.deltaTime;
-        if(transform.position.x<-25f)
+        obstacleSpeedReal = FindObjectOfType<GameManager>().gameSpeed * obstacleSpeed;
+        transform.position -= Vector3.forward * obstacleSpeedReal * Time.deltaTime;
+        if (transform.position.x < -25f)
         {
             Destroy(gameObject);
         }

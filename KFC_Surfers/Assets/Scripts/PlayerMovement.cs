@@ -1,64 +1,49 @@
 using UnityEngine;
-
+using System.Collections;
 public class PlayerMovement : MonoBehaviour
 {
-    double upwardForce = 100f;
+    //double upwardForce = 100f;
+    //static float t = 0.0f;
     //public Transform transform;
     bool DKey = false, WKey = false, AKey = false;
     private IEnumerator coroutine;
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown("d"))
         {
-            DKey = true;
+            if (transform.position.x == 2f)
+            {
+                coroutine = MovingTo(5);
+                StartCoroutine(coroutine);
+                Debug.Log("ifD");
+            }//transform.position = new Vector3(Mathf.Lerp(2, 5, t), transform.position.y, 0);//(5, transform.position.y, 0);
+            else if (transform.position.x == 5f)
+            {
+                coroutine = MovingTo(8);
+                StartCoroutine(coroutine);
+                Debug.Log("elseifD");
+            }//transform.position = new Vector3(Mathf.Lerp(8, 5, t), transform.position.y, 0);//(8, transform.position.y, 0);
+            Debug.Log("D");
         }
-        else
+        else if (Input.GetKeyDown("w"))
         {
-            DKey = false;
-        }
-        if (Input.GetKeyDown("w"))
-        {
-            WKey = true;
-        }
-        else
-        {
-            WKey = false;
-        }
-        if (Input.GetKeyDown("a"))
-        {
-            AKey = true;
-        }
-        else
-        {
-            AKey = false;
-        }
-        if (WKey)
-        {
-            if (transform.position.y <= 1)
-                transform.position = new Vector3(transform.position.x, 2, 0);
             Debug.Log("W");
         }
-        if (AKey)
+        else if (Input.GetKeyDown("a"))
         {
-            if (transform.position.x == 5)
-                transform.position = new Vector3(2, transform.position.y, 0);
-            else if (transform.position.x == 8)
-                transform.position = new Vector3(5, transform.position.y, 0);
+            if (transform.position.x == 5f)
+            {
+                coroutine = MovingTo(2);
+                StartCoroutine(coroutine);
+            }//transform.position = new Vector3(Mathf.Lerp(5, 2, t), transform.position.y, 0);//(2, transform.position.y, 0);
+            else if (transform.position.x == 8f)
+            {
+                coroutine = MovingTo(5);
+                StartCoroutine(coroutine);
+            }//transform.position = new Vector3(Mathf.Lerp(8, 5, t), transform.position.y, 0);//(5, transform.position.y, 0);
             Debug.Log("A");
-        }
-        if (DKey)
-        {
-            if (transform.position.x == 2)
-                transform.position = new Vector3(5, transform.position.y, 0);
-            else if (transform.position.x == 5)
-                transform.position = new Vector3(8, transform.position.y, 0);
-            Debug.Log("D");
         }
     }
 
@@ -75,17 +60,22 @@ public class PlayerMovement : MonoBehaviour
         }
         Debug.Log(info.collider.name);
     }
-    private IEnumerator WaitAndSpawn(float waitTime) // do poprawienia żeby działało do presuwania między liniami
+    private IEnumerator MovingTo(float targetX) // do poprawienia żeby działało do presuwania między liniami
     {
-        while (true)
+        while (Mathf.Abs(transform.position.x - targetX) > 0.01f)
         {
-            yield return new WaitForSeconds(waitTime);
-            float pom = hight();
-            print("WaitAndSpawn " + pom);
-            GameObject obj = Instantiate(swordGate, transform);
-            obj.transform.position = new Vector3(75, pom, 0);
-            //GateMovment nSwordGate = obj.GetComponent<GateMovment>();
-            //nSwordGate.gameManager = this;
+            transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetX, 0.1f), transform.position.y, 0);
+            yield return new WaitForSeconds(0.1f);
         }
+    }
+    private IEnumerator DistanceTraveled()
+    {
+        float distance = 0f;
+        while (distance < 1f)
+        {
+            distance += 0.1f;
+            yield return new WaitForSeconds(0.1f);
+        }
+
     }
 }
