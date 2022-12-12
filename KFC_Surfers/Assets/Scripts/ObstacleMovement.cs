@@ -9,7 +9,7 @@ public class ObstacleMovement : MonoBehaviour
     {
         obstacleSpeedReal = FindObjectOfType<GameManager>().gameSpeed * obstacleSpeed;
         transform.position -= Vector3.forward * obstacleSpeedReal * Time.deltaTime;
-        if (transform.position.x < -25f)
+        if (transform.position.z < -25f)
         {
             Destroy(gameObject);
         }

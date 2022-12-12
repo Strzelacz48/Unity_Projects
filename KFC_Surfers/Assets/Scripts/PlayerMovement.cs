@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
     //double upwardForce = 100f;
     //static float t = 0.0f;
     //public Transform transform;
-    bool DKey = false, WKey = false, AKey = false;
+    //bool DKey = false, WKey = false, AKey = false;
     private IEnumerator coroutine;
 
     // Update is called once per frame
