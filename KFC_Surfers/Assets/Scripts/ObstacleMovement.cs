@@ -7,11 +7,14 @@ public class ObstacleMovement : MonoBehaviour
     public float obstacleSpeedReal = obstacleSpeed;
     void Update()
     {
-        obstacleSpeedReal = FindObjectOfType<GameManager>().gameSpeed * obstacleSpeed;
-        transform.position -= Vector3.forward * obstacleSpeedReal * Time.deltaTime;
-        if (transform.position.z < -25f)
+        if(FindObjectOfType<GameManager>().gameHasEnded == false)
         {
-            Destroy(gameObject);
+            obstacleSpeedReal = FindObjectOfType<GameManager>().gameSpeed * obstacleSpeed;
+            transform.position -= Vector3.forward * obstacleSpeedReal * Time.deltaTime;
+            if (transform.position.z < -25f)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

@@ -8,11 +8,14 @@ public class ForestScroll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        forestSpeedReal = FindObjectOfType<GameManager>().gameSpeed * forestSpeed;
-        transform.position -= Vector3.forward * forestSpeedReal * Time.deltaTime;
-        if (transform.position.z < Edge)
+        if(FindObjectOfType<GameManager>().gameHasEnded == false)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, 109f);
+            forestSpeedReal = FindObjectOfType<GameManager>().gameSpeed * forestSpeed;
+            transform.position -= Vector3.forward * forestSpeedReal * Time.deltaTime;
+            if (transform.position.z < Edge)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y, 109f);
+            }
         }
     }
 }

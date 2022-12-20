@@ -1,49 +1,59 @@
+using System.ComponentModel;
 using UnityEngine;
 using System.Collections;
 public class PlayerMovement : MonoBehaviour
 {
-    //double upwardForce = 100f;
+    public float sideMoveForce= 10f;
+    public Animator aManager;
+    public Rigidbody rb;
+    public float upwardForce = 5f;
+    private bool isGrounded = true;
     //static float t = 0.0f;
     //public Transform transform;
     //bool DKey = false, WKey = false, AKey = false;
     private IEnumerator coroutine;
-
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("d"))
+        if (Input.GetKey("d"))
         {
-            if (transform.position.x == 2f)
+            if (transform.position.x < 8f)
             {
-                coroutine = MovingTo(5);
-                StartCoroutine(coroutine);
+                transform.position+=Vector3.right * sideMoveForce * Time.deltaTime;;
+                /*coroutine = MovingTo(5);
+                StartCoroutine(coroutine);*/
                 Debug.Log("ifD");
             }//transform.position = new Vector3(Mathf.Lerp(2, 5, t), transform.position.y, 0);//(5, transform.position.y, 0);
-            else if (transform.position.x == 5f)
-            {
-                coroutine = MovingTo(8);
-                StartCoroutine(coroutine);
-                Debug.Log("elseifD");
-            }//transform.position = new Vector3(Mathf.Lerp(8, 5, t), transform.position.y, 0);//(8, transform.position.y, 0);
+            //transform.position = new Vector3(Mathf.Lerp(8, 5, t), transform.position.y, 0);//(8, transform.position.y, 0);
             Debug.Log("D");
         }
-        else if (Input.GetKeyDown("w"))
+        else if (Input.GetKeyDown("w") && isGrounded)
         {
+            rb.velocity = Vector3.up * upwardForce;
             Debug.Log("W");
+            
         }
-        else if (Input.GetKeyDown("a"))
+        else if (Input.GetKey("a"))
         {
-            if (transform.position.x == 5f)
+            if (transform.position.x > 2f)
             {
-                coroutine = MovingTo(2);
-                StartCoroutine(coroutine);
+                transform.position+=Vector3.left * sideMoveForce * Time.deltaTime;
+                /*coroutine = MovingTo(2);
+                StartCoroutine(coroutine);*/
+                Debug.Log("ifA");
             }//transform.position = new Vector3(Mathf.Lerp(5, 2, t), transform.position.y, 0);//(2, transform.position.y, 0);
-            else if (transform.position.x == 8f)
-            {
-                coroutine = MovingTo(5);
-                StartCoroutine(coroutine);
-            }//transform.position = new Vector3(Mathf.Lerp(8, 5, t), transform.position.y, 0);//(5, transform.position.y, 0);
+            //transform.position = new Vector3(Mathf.Lerp(8, 5, t), transform.position.y, 0);//(5, transform.position.y, 0);
             Debug.Log("A");
+        }
+        if(transform.position.y > 0.5f)
+        {
+            isGrounded = false;
+            aManager.SetBool("jumping", true);
+        }
+        else
+        {
+            isGrounded = true;
+            aManager.SetBool("jumping", false);
         }
     }
 
@@ -56,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         if (info.collider.tag == "Obstacle")
         {
             //zatrzymaj przesuwanie przeszkód i lasu
+            aManager.SetBool("isDead", true);
             FindObjectOfType<GameManager>().EndGame();
         }
         Debug.Log(info.collider.name);

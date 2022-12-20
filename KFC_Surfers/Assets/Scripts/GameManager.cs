@@ -8,12 +8,12 @@ public class GameManager : MonoBehaviour
     public int scorevalue = 0;
     public GameObject logObstacleL;
     public GameObject logObstacleM;
-    public GameObject logObstacleP;
+    public GameObject logObstacleR;
+    public GameObject logObstacleMLow;
     public bool gameHasEnded = false;
     public float restartDelay = 1f;
     public float gameSpeed = 1f;
     private IEnumerator coroutine;
-
     // Update is called once per frame
     void Update()
     {
@@ -35,15 +35,41 @@ public class GameManager : MonoBehaviour
         Debug.Log("Score increased");
     }
 
-    /*private IEnumerator WaitAndSpawn(float waitTime)
+    private IEnumerator WaitAndSpawn(float waitTime)
     {
-    }*/
+        while (!gameHasEnded)
+        {
+            ScoreIncrease();
+            yield return new WaitForSeconds(waitTime);
+            spawnObstacle();
+        }
+    }
 
     private void Start()
     {
-        /*coroutine = WaitAndSpawn(1.5f);
-        StartCoroutine(coroutine);*/
+        coroutine = WaitAndSpawn(1f);
+        StartCoroutine(coroutine);
         scorevalue = 0;
+    }
+    private void spawnObstacle()
+    {
+        int obstacleType = ObstacleType();
+        if(obstacleType == 0)
+        {
+            Instantiate(logObstacleL, transform);
+        }
+        else if(obstacleType == 1)
+        {
+            Instantiate(logObstacleM, transform);
+        }
+        else if(obstacleType == 2)
+        {
+            Instantiate(logObstacleR, transform);
+        }
+        else if(obstacleType == 3)
+        {
+            Instantiate(logObstacleMLow, transform);
+        }
     }
     
     public void EndGame()
