@@ -13,71 +13,84 @@ public class GameManager : MonoBehaviour
     public bool gameHasEnded = false;
     public float restartDelay = 1f;
     public float gameSpeed = 1f;
+    private float timepom;
     private IEnumerator coroutine;
+    public GameOverScreen gameOverScreen;
     // Update is called once per frame
     void Update()
     {
+        if(!gameHasEnded)
+        {
+            if(timepom > 1)
+            {
+                timepom = 0;
+                ScoreIncrease();
+            }
+            timepom+= 1 * Time.deltaTime;
+        }
+
         if(Input.GetKeyDown("r") && gameHasEnded == true)
             {
                 Invoke("Restart", restartDelay);
             }
+    } 
+
+    private void ScoreIncrease()
+    {
+            scorevalue+=1;
+            scoreText.text="Score : "+scorevalue.ToString("0");
+            Debug.Log("Score increased");
     }
 
     private int ObstacleType()
     {
-        return Random.Range(0,3);
-    }  
+        return Random.Range(0,4);
+    } 
 
-    public void ScoreIncrease()
+    private IEnumerator WaitAndSpawn()
     {
-        scorevalue+=1;
-        scoreText.text="Score : "+scorevalue.ToString("0");
-        Debug.Log("Score increased");
-    }
-
-    private IEnumerator WaitAndSpawn(float waitTime)
-    {
+        float waitTime = 1f;
         while (!gameHasEnded)
         {
-            ScoreIncrease();
+            //ScoreIncrease();
             yield return new WaitForSeconds(waitTime);
-            spawnObstacle();
+            int obstacleType = ObstacleType();
+            print("WaitAndSpawn " + obstacleType);
+            if(obstacleType == 0)
+            {
+                GameObject obj = Instantiate(logObstacleL, transform);
+            }
+            else if(obstacleType == 1)
+            {
+                GameObject obj = Instantiate(logObstacleM, transform);
+            }
+            else if(obstacleType == 2)
+            {
+                GameObject obj = Instantiate(logObstacleR, transform);
+            }
+            else if(obstacleType == 3)
+            {
+                GameObject obj = Instantiate(logObstacleMLow, transform);
+            }
+              
+            //obj.transform.position = new Vector3(75,pom,0);
         }
     }
 
     private void Start()
     {
-        coroutine = WaitAndSpawn(1f);
-        StartCoroutine(coroutine);
+        StartCoroutine(WaitAndSpawn());
         scorevalue = 0;
     }
-    private void spawnObstacle()
-    {
-        int obstacleType = ObstacleType();
-        if(obstacleType == 0)
-        {
-            Instantiate(logObstacleL, transform);
-        }
-        else if(obstacleType == 1)
-        {
-            Instantiate(logObstacleM, transform);
-        }
-        else if(obstacleType == 2)
-        {
-            Instantiate(logObstacleR, transform);
-        }
-        else if(obstacleType == 3)
-        {
-            Instantiate(logObstacleMLow, transform);
-        }
-    }
+
     
     public void EndGame()
     {
         if (gameHasEnded == false)
         {
             gameHasEnded = true;
-            Debug.Log("GAME OVER");// poprawić na napis na UI
+            gameOverScreen.Setup();
+            Debug.Log("GAME OVER");
             //użyć w updatcie z flagą
         }
     }

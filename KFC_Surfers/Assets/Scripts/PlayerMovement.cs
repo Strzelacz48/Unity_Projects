@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     //static float t = 0.0f;
     //public Transform transform;
     //bool DKey = false, WKey = false, AKey = false;
-    private IEnumerator coroutine;
+    //private IEnumerator coroutine;
     // Update is called once per frame
     void Update()
     {
@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
             FindObjectOfType<GameManager>().EndGame();
         }
         Debug.Log(info.collider.name);
-    }
+    }/*
     private IEnumerator MovingTo(float targetX) // do poprawienia żeby działało do presuwania między liniami
     {
         while (Mathf.Abs(transform.position.x - targetX) > 0.01f)
@@ -88,5 +88,5 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-    }
+    }*/
 }
