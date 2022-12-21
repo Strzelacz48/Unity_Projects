@@ -110,7 +110,8 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: -0.01
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6580870, guid: 6d63b78216191644fac480e8659cee53, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d63b78216191644fac480e8659cee53, type: 3}
 --- !u!4 &8763641614625751240 stripped
@@ -118,3 +119,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 496840, guid: 6d63b78216191644fac480e8659cee53, type: 3}
   m_PrefabInstance: {fileID: 8763641614626116608}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8763641614626143542 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 125238, guid: 6d63b78216191644fac480e8659cee53, type: 3}
+  m_PrefabInstance: {fileID: 8763641614626116608}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &8278090191491116212
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8763641614626143542}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.36
+  m_Height: 3.11
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}

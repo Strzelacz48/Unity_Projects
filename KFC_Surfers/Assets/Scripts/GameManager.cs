@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour
             {
                 Invoke("Restart", restartDelay);
             }
+        if(Input.GetKeyDown("q") && gameHasEnded == true)
+        {
+            Application.Quit();
+        }
     } 
 
     private void ScoreIncrease()
@@ -73,7 +77,6 @@ public class GameManager : MonoBehaviour
                 GameObject obj = Instantiate(logObstacleMLow, transform);
             }
               
-            //obj.transform.position = new Vector3(75,pom,0);
         }
     }
 
@@ -91,7 +94,6 @@ public class GameManager : MonoBehaviour
             gameHasEnded = true;
             gameOverScreen.Setup();
             Debug.Log("GAME OVER");
-            //użyć w updatcie z flagą
         }
     }
 

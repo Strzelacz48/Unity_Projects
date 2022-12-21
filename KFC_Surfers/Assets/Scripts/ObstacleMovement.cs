@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ObstacleMovement : MonoBehaviour
 {
-    //GameManager gameManager;
     public const float obstacleSpeed = 15f;
     public float obstacleSpeedReal = obstacleSpeed;
     void Update()

@@ -8,42 +8,34 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     public float upwardForce = 5f;
     private bool isGrounded = true;
-    //static float t = 0.0f;
-    //public Transform transform;
-    //bool DKey = false, WKey = false, AKey = false;
-    //private IEnumerator coroutine;
-    // Update is called once per frame
+    private bool isDead = false;
+    public AudioSource runSound;
+    public AudioSource jumpSound;
+    public AudioSource deathSound;
+    private int rollTimer = 0;
     void Update()
     {
-        if (Input.GetKey("d"))
+        if (Input.GetKey("d") && !isDead)
         {
             if (transform.position.x < 8f)
             {
                 transform.position+=Vector3.right * sideMoveForce * Time.deltaTime;;
-                /*coroutine = MovingTo(5);
-                StartCoroutine(coroutine);*/
-                Debug.Log("ifD");
-            }//transform.position = new Vector3(Mathf.Lerp(2, 5, t), transform.position.y, 0);//(5, transform.position.y, 0);
-            //transform.position = new Vector3(Mathf.Lerp(8, 5, t), transform.position.y, 0);//(8, transform.position.y, 0);
-            Debug.Log("D");
+                
+            }
         }
-        else if (Input.GetKeyDown("w") && isGrounded)
+        else if (Input.GetKeyDown("w") && isGrounded && !isDead)
         {
             rb.velocity = Vector3.up * upwardForce;
-            Debug.Log("W");
+            jumpSound.Play();
+            
             
         }
-        else if (Input.GetKey("a"))
+        else if (Input.GetKey("a") && !isDead)
         {
             if (transform.position.x > 2f)
             {
                 transform.position+=Vector3.left * sideMoveForce * Time.deltaTime;
-                /*coroutine = MovingTo(2);
-                StartCoroutine(coroutine);*/
-                Debug.Log("ifA");
-            }//transform.position = new Vector3(Mathf.Lerp(5, 2, t), transform.position.y, 0);//(2, transform.position.y, 0);
-            //transform.position = new Vector3(Mathf.Lerp(8, 5, t), transform.position.y, 0);//(5, transform.position.y, 0);
-            Debug.Log("A");
+            }
         }
         if(transform.position.y > 0.5f)
         {
@@ -55,38 +47,44 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
             aManager.SetBool("jumping", false);
         }
+        if(isGrounded && !isDead)
+        {
+            runSound.mute = false;
+        }
+        else
+        {
+            runSound.mute = true;
+        }
     }
 
-    void FixedUpdate()
-    {
 
-    }
     void OnCollisionEnter(Collision info)
     {
         if (info.collider.tag == "Obstacle")
         {
+            deathSound.Play();
+            isDead = true;
             //zatrzymaj przesuwanie przeszkód i lasu
             aManager.SetBool("isDead", true);
             FindObjectOfType<GameManager>().EndGame();
         }
         Debug.Log(info.collider.name);
-    }/*
-    private IEnumerator MovingTo(float targetX) // do poprawienia żeby działało do presuwania między liniami
-    {
-        while (Mathf.Abs(transform.position.x - targetX) > 0.01f)
-        {
-            transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetX, 0.1f), transform.position.y, 0);
-            yield return new WaitForSeconds(0.1f);
-        }
     }
-    private IEnumerator DistanceTraveled()
-    {
-        float distance = 0f;
-        while (distance < 1f)
-        {
-            distance += 0.1f;
-            yield return new WaitForSeconds(0.1f);
-        }
-
-    }*/
 }
+/*
+        else if (Input.GetKeyDown("s") && isGrounded && !isDead)
+        {
+            BoxCollider boxCollider = GetComponent<BoxCollider>();
+            boxCollider.center = new Vector3(0, 0.0f, 0);
+            jumpSound.Play();
+            Debug.Log("S");
+        }
+        if(rollTimer > 0)
+        {
+            rollTimer--;
+        }
+        else
+        {
+            BoxCollider boxCollider = GetComponent<BoxCollider>();
+            boxCollider.center = new Vector3(0, 0.96f, 0);
+        }*/
